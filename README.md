@@ -35,3 +35,28 @@ supabase/migrations/20260617172200_create_oldskoolvibe_adverts.sql
 
 It creates `oldskoolvibe_`-prefixed tables for publishable developer adverts,
 advert FAQs, and service enquiries with row level security enabled.
+
+The active Supabase project used for this setup is:
+
+```text
+https://qemafehpoknkbejlbksa.supabase.co
+```
+
+## Service request email setup
+
+Service request forms post to `/api/service-requests`. The endpoint stores the
+request in `oldskoolvibe_service_enquiries` and emails the details to
+`john.mbiddulph@gmail.com`.
+
+Set these Vercel environment variables:
+
+```text
+SUPABASE_URL=https://qemafehpoknkbejlbksa.supabase.co
+SUPABASE_PUBLISHABLE_KEY=<Supabase publishable or anon key>
+RESEND_API_KEY=<Resend API key>
+SERVICE_REQUEST_EMAIL_FROM=Oldskoolvibe <forms@oldskoolvibe.dev>
+SERVICE_REQUEST_EMAIL_TO=john.mbiddulph@gmail.com
+```
+
+`SERVICE_REQUEST_EMAIL_FROM` can use an address at `oldskoolvibe.dev` without a
+mailbox, but the domain must be verified in the email provider so it can send.

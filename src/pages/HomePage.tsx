@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { ServiceRequestForm } from "../components/ServiceRequestForm";
 import { adverts } from "../content/adverts";
 
 const capabilityPillars = [
@@ -33,7 +34,7 @@ export function HomePage() {
             backend logic, database fluency, and pages that can be found.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="mailto:hello@oldskoolvibe.dev">
+            <a className="button button-primary" href="#service-request">
               Start a project
             </a>
             <a className="button button-secondary" href="#services">
@@ -88,11 +89,13 @@ export function HomePage() {
             business idea from content and interface through to data-backed
             workflows.
           </p>
-          <a className="button button-primary" href="mailto:hello@oldskoolvibe.dev">
+          <a className="button button-primary" href="#service-request">
             Discuss the right stack
           </a>
         </div>
       </section>
+
+      <ServiceRequestForm />
     </>
   );
 }

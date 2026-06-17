@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ServiceRequestForm } from "../components/ServiceRequestForm";
 import { adverts, getAdvertBySlug } from "../content/adverts";
 
 function updateMetaDescription(content: string) {
@@ -53,7 +54,7 @@ export function AdvertPage() {
           <h1>{advert.headline}</h1>
           <p className="hero-intro">{advert.intro}</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="mailto:hello@oldskoolvibe.dev">
+            <a className="button button-primary" href="#service-request">
               Enquire about {advert.role}
             </a>
             <a className="button button-secondary" href="#deliverables">
@@ -130,6 +131,13 @@ export function AdvertPage() {
           ))}
         </div>
       </section>
+
+      <ServiceRequestForm
+        advert={advert}
+        key={advert.slug}
+        title={`Request ${advert.role.toLowerCase()} help.`}
+        intro="Send the basics through the form and the enquiry will be saved in Supabase with this service attached."
+      />
 
       <section className="section related-section">
         <div className="section-heading">
