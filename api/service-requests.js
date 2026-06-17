@@ -4,6 +4,7 @@ import { Resend } from "resend";
 const EMAIL_TO = process.env.SERVICE_REQUEST_EMAIL_TO || "john.mbiddulph@gmail.com";
 const EMAIL_FROM = process.env.SERVICE_REQUEST_EMAIL_FROM || "Oldskoolvibe <forms@oldskoolvibe.dev>";
 const VALID_CONTACT_METHODS = new Set(["email", "phone", "video_call"]);
+const RESEND_ENV_NAMES = ["RESEND_API_KEY"];
 
 const cleanText = (value, maxLength) => {
   if (typeof value !== "string") {
@@ -35,6 +36,28 @@ const formatLine = (label, value) => {
 
   return `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</p>`;
 };
+
+const getResendApiKey = () => {
+  for (const name of RESEND_ENV_NAMES) {
+    const value = process.env[name]?.trim();
+
+    if (value) {
+      return value;
+    }
+  }
+
+  return "";
+};
+
+const getEnvDiagnostics = () => ({
+  vercelEnv: process.env.VERCEL_ENV || null,
+  branch: process.env.VERCEL_GIT_COMMIT_REF || null,
+  deploymentUrl: process.env.VERCEL_URL || null,
+  expectedEmailEnvVars: RESEND_ENV_NAMES.map((name) => ({
+    name,
+    present: Boolean(process.env[name]?.trim()),
+  })),
+});
 
 const getSupabaseClient = () => {
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
@@ -79,8 +102,13 @@ export default async function handler(request, response) {
     return response.status(202).json({ ok: true });
   }
 
-  if (!process.env.RESEND_API_KEY) {
-    return response.status(500).json({ error: "Email delivery is not configured." });
+  const resendApiKey = getResendApiKey();
+
+  if (!resendApiKey) {
+    return response.status(500).json({
+      error: "Email delivery is not configured in this deployment.",
+      diagnostics: getEnvDiagnostics(),
+    });
   }
 
   const name = cleanText(payload?.name, 120);
@@ -143,7 +171,7 @@ export default async function handler(request, response) {
       throw insertError;
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resend = new Resend(resendApiKey);
     const serviceLabel = enquiry.project_type || "General service request";
     const submittedAt = new Date().toLocaleString("en-GB", {
       dateStyle: "medium",
