@@ -31,7 +31,7 @@ export function SiteLayout({ children }: SiteLayoutProps) {
           React, Vue, Nuxt, Laravel, Python, AI-assisted delivery, PostgreSQL,
           UI/UX, and SEO services.
         </p>
-        <a href="mailto:hello@oldskoolvibe.dev">hello@oldskoolvibe.dev</a>
+        <a href="/#service-request">Send a service request</a>
       </footer>
     </div>
   );

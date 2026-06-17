@@ -40,11 +40,13 @@ create table public.oldskoolvibe_service_enquiries (
   advert_id uuid references public.oldskoolvibe_developer_adverts(id) on delete set null,
   name text not null,
   email text not null,
+  phone text,
   company text,
   project_type text,
   budget_range text,
   preferred_contact text not null default 'email',
   message text not null,
+  source_path text,
   status text not null default 'new',
   created_at timestamp with time zone not null default now(),
   constraint oldskoolvibe_service_enquiries_email_format
@@ -67,6 +69,7 @@ create index oldskoolvibe_service_enquiries_created_idx
 create or replace function public.oldskoolvibe_set_updated_at()
 returns trigger
 language plpgsql
+set search_path = ''
 as $$
 begin
   new.updated_at = now();
