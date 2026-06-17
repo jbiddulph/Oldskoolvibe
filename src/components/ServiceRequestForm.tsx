@@ -66,7 +66,7 @@ export function ServiceRequestForm({ advert, title, intro }: ServiceRequestFormP
       }
 
       setStatus("success");
-      setStatusMessage("Thanks, your request has been sent. John will reply as soon as possible.");
+      setStatusMessage("Thanks, your request has been sent. We will reply as soon as possible.");
       setForm(initialState(advert));
     } catch (error) {
       setStatus("error");
