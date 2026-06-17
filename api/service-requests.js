@@ -62,6 +62,20 @@ const getEnvDiagnostics = () => ({
   ).length,
 });
 
+const getEmailDomain = (address) => {
+  const match = String(address).match(/@([^>\s]+)>?$/);
+  return match?.[1]?.toLowerCase() || null;
+};
+
+const getEmailDeliveryDiagnostics = (emailError) => ({
+  provider: "resend",
+  errorName: emailError?.name || null,
+  statusCode: emailError?.statusCode || null,
+  message: emailError?.message || "Unknown Resend error",
+  fromDomain: getEmailDomain(EMAIL_FROM),
+  toDomain: getEmailDomain(EMAIL_TO),
+});
+
 const getSupabaseClient = () => {
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const supabaseKey =
@@ -220,8 +234,15 @@ export default async function handler(request, response) {
     });
 
     if (emailError) {
+      console.error("Resend email delivery failed", {
+        name: emailError.name,
+        statusCode: emailError.statusCode,
+        message: emailError.message,
+      });
+
       return response.status(502).json({
         error: "Your request was saved, but the notification email could not be sent.",
+        diagnostics: getEmailDeliveryDiagnostics(emailError),
       });
     }
 
