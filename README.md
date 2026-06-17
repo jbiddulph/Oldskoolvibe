@@ -60,3 +60,13 @@ SERVICE_REQUEST_EMAIL_TO=john.mbiddulph@gmail.com
 
 `SERVICE_REQUEST_EMAIL_FROM` can use an address at `oldskoolvibe.dev` without a
 mailbox, but the domain must be verified in the email provider so it can send.
+
+If `/api/service-requests` returns `Email delivery is not configured in this
+deployment`, the running Vercel deployment cannot see `RESEND_API_KEY`. Check
+that the variable is assigned to the environment you are testing:
+
+- `https://www.oldskoolvibe.dev` uses Vercel's Production environment.
+- Pull request and branch URLs usually use Vercel's Preview environment.
+
+After changing Vercel environment variables, redeploy the affected deployment so
+the serverless function receives the new values.
