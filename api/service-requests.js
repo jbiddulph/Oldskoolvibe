@@ -57,6 +57,9 @@ const getEnvDiagnostics = () => ({
     name,
     present: Boolean(process.env[name]?.trim()),
   })),
+  resendRuntimeEnvKeyCount: Object.keys(process.env).filter((name) =>
+    name.toUpperCase().includes("RESEND"),
+  ).length,
 });
 
 const getSupabaseClient = () => {
