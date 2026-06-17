@@ -135,11 +135,9 @@ export default async function handler(request, response) {
       status: "new",
     };
 
-    const { data: savedEnquiry, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from("oldskoolvibe_service_enquiries")
-      .insert(enquiry)
-      .select("id, created_at")
-      .single();
+      .insert(enquiry);
 
     if (insertError) {
       throw insertError;
@@ -147,7 +145,7 @@ export default async function handler(request, response) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const serviceLabel = enquiry.project_type || "General service request";
-    const submittedAt = new Date(savedEnquiry.created_at).toLocaleString("en-GB", {
+    const submittedAt = new Date().toLocaleString("en-GB", {
       dateStyle: "medium",
       timeStyle: "short",
       timeZone: "Europe/London",
@@ -160,7 +158,6 @@ export default async function handler(request, response) {
       subject: `Oldskoolvibe service request: ${serviceLabel}`,
       html: `
         <h1>New Oldskoolvibe service request</h1>
-        ${formatLine("Reference", savedEnquiry.id)}
         ${formatLine("Submitted", submittedAt)}
         ${formatLine("Service", serviceLabel)}
         ${formatLine("Name", name)}
@@ -175,7 +172,6 @@ export default async function handler(request, response) {
       `,
       text: [
         "New Oldskoolvibe service request",
-        `Reference: ${savedEnquiry.id}`,
         `Submitted: ${submittedAt}`,
         `Service: ${serviceLabel}`,
         `Name: ${name}`,
@@ -198,7 +194,7 @@ export default async function handler(request, response) {
       });
     }
 
-    return response.status(201).json({ ok: true, id: savedEnquiry.id });
+    return response.status(201).json({ ok: true });
   } catch (error) {
     console.error("Service request submission failed", error);
 
