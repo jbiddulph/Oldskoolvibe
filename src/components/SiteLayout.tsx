@@ -1,12 +1,15 @@
 import type { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { adverts } from "../content/adverts";
+import { resolveSubNavLabel, useUserLocation } from "../hooks/useUserLocation";
 
 type SiteLayoutProps = {
   children: ReactNode;
 };
 
 export function SiteLayout({ children }: SiteLayoutProps) {
+  const location = useUserLocation();
+
   return (
     <div className="site-shell">
       <header className="site-header">
@@ -18,11 +21,20 @@ export function SiteLayout({ children }: SiteLayoutProps) {
           </span>
         </NavLink>
         <nav className="site-nav" aria-label="Developer service adverts">
-          {adverts.map((advert) => (
-            <NavLink key={advert.slug} to={`/services/${advert.slug}`}>
-              {advert.role.replace(" Developer", "")}
-            </NavLink>
-          ))}
+          {adverts.map((advert) => {
+            const href = `/services/${advert.slug}`;
+            const label = advert.role.replace(" Developer", "");
+            const subLabel = resolveSubNavLabel(advert.subNavLabel, location);
+
+            return (
+              <div key={advert.slug} className="site-nav-item">
+                <NavLink to={href}>{label}</NavLink>
+                <div className="site-nav-submenu" role="group" aria-label={`${label} links`}>
+                  <NavLink to={href}>{subLabel}</NavLink>
+                </div>
+              </div>
+            );
+          })}
         </nav>
       </header>
       <main>{children}</main>

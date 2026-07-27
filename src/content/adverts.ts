@@ -1,6 +1,8 @@
 export type Advert = {
   slug: string;
   role: string;
+  /** Submenu label; use `{location}` for the visitor's area (defaults to Brighton Sussex). */
+  subNavLabel: string;
   eyebrow: string;
   headline: string;
   intro: string;
@@ -26,6 +28,7 @@ export const adverts: Advert[] = [
   {
     slug: "react-developer",
     role: "React Developer",
+    subNavLabel: "Learn React",
     eyebrow: "Modern frontend and full-stack React delivery",
     headline: "Hire a React developer for fast, polished, SEO-aware web apps.",
     intro:
@@ -57,6 +60,7 @@ export const adverts: Advert[] = [
   {
     slug: "vue-developer",
     role: "Vue Developer",
+    subNavLabel: "Vue Websites in {location}",
     eyebrow: "Vue applications with practical full-stack experience",
     headline: "Hire a Vue developer for elegant interfaces and dependable data flows.",
     intro:
@@ -88,6 +92,7 @@ export const adverts: Advert[] = [
   {
     slug: "nuxt-developer",
     role: "Nuxt Developer",
+    subNavLabel: "Nuxt Websites in {location}",
     eyebrow: "SEO-led Nuxt sites and applications",
     headline: "Hire a Nuxt developer for content-rich, high-performing web experiences.",
     intro:
@@ -119,6 +124,7 @@ export const adverts: Advert[] = [
   {
     slug: "laravel-developer",
     role: "Laravel Developer",
+    subNavLabel: "Laravel applications in {location}",
     eyebrow: "Laravel backends, admin tools, and full-stack builds",
     headline: "Hire a Laravel developer for robust web apps and business systems.",
     intro:
@@ -150,6 +156,7 @@ export const adverts: Advert[] = [
   {
     slug: "python-developer",
     role: "Python Developer",
+    subNavLabel: "Python web applications and scripts in {location}",
     eyebrow: "Python automation, APIs, and data-backed products",
     headline: "Hire a Python developer for practical automation and scalable web features.",
     intro:
@@ -181,6 +188,7 @@ export const adverts: Advert[] = [
   {
     slug: "vibe-coder-ai-experience",
     role: "Vibe Coder with AI Experience",
+    subNavLabel: "Vibe coding with AI in {location}",
     eyebrow: "AI-assisted product builds with senior engineering judgement",
     headline: "Hire a vibe coder with AI experience to turn ideas into shipped product pages and apps.",
     intro:
