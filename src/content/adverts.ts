@@ -28,7 +28,7 @@ export const adverts: Advert[] = [
   {
     slug: "react-developer",
     role: "React Developer",
-    subNavLabel: "Learn React",
+    subNavLabel: "React Websites in {location}",
     eyebrow: "Modern frontend and full-stack React delivery",
     headline: "Hire a React developer for fast, polished, SEO-aware web apps.",
     intro:
