@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { articles } from "../content/articles";
 import { adverts } from "../content/adverts";
 import { trendCategories } from "../content/trendCategories";
+import { NavDropdown } from "./NavDropdown";
 
 type SiteLayoutProps = {
   children: ReactNode;
@@ -37,40 +38,33 @@ export function SiteLayout({ children }: SiteLayoutProps) {
           <div className="site-nav-item">
             <NavLink to="/what-we-build#service-request">Contact</NavLink>
           </div>
-          <div className="site-nav-item site-nav-capabilities">
-            <span className="site-nav-label">Capabilities</span>
-            <div className="site-nav-submenu" role="group" aria-label="Capability pages">
-              {adverts.map((advert) => (
-                <NavLink key={advert.slug} to={`/services/${advert.slug}`}>
-                  {advert.role
-                    .replace(" Developer", "")
-                    .replace(" with AI Experience", "")}
-                </NavLink>
-              ))}
-            </div>
-          </div>
-          <div className="site-nav-item site-nav-capabilities">
-            <span className="site-nav-label">Trend hubs</span>
-            <div className="site-nav-submenu" role="group" aria-label="Trend categories">
-              {trendCategories.map((category) => (
-                <NavLink key={category.id} to={`/trends/${category.slug}`}>
-                  {category.title}
-                </NavLink>
-              ))}
-              <NavLink to="/trends">All trends</NavLink>
-            </div>
-          </div>
-          <div className="site-nav-item site-nav-capabilities">
-            <span className="site-nav-label">Guides</span>
-            <div className="site-nav-submenu" role="group" aria-label="Article guides">
-              {articles.slice(0, 6).map((article) => (
-                <NavLink key={article.slug} to={`/articles/${article.slug}`}>
-                  {article.eyebrow}
-                </NavLink>
-              ))}
-              <NavLink to="/articles">All articles</NavLink>
-            </div>
-          </div>
+          <NavDropdown ariaLabel="Capability pages" label="Capabilities">
+            {adverts.map((advert) => (
+              <NavLink key={advert.slug} role="menuitem" to={`/services/${advert.slug}`}>
+                {advert.role.replace(" Developer", "").replace(" with AI Experience", "")}
+              </NavLink>
+            ))}
+          </NavDropdown>
+          <NavDropdown ariaLabel="Trend categories" label="Trend hubs">
+            {trendCategories.map((category) => (
+              <NavLink key={category.id} role="menuitem" to={`/trends/${category.slug}`}>
+                {category.title}
+              </NavLink>
+            ))}
+            <NavLink role="menuitem" to="/trends">
+              All trends
+            </NavLink>
+          </NavDropdown>
+          <NavDropdown ariaLabel="Article guides" label="Guides">
+            {articles.slice(0, 6).map((article) => (
+              <NavLink key={article.slug} role="menuitem" to={`/articles/${article.slug}`}>
+                {article.eyebrow}
+              </NavLink>
+            ))}
+            <NavLink role="menuitem" to="/articles">
+              All articles
+            </NavLink>
+          </NavDropdown>
         </nav>
       </header>
       <main>{children}</main>
