@@ -1,12 +1,15 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { articles } from "../content/articles";
 import { adverts } from "../content/adverts";
 import { trendCategories } from "../content/trendCategories";
+import { NavDropdown } from "./NavDropdown";
 
 type SiteLayoutProps = {
   children: ReactNode;
 };
+
+type OpenMenu = "capabilities" | "trends" | "guides" | null;
 
 const primaryNav = [
   { to: "/", label: "Home", end: true },
@@ -15,7 +18,32 @@ const primaryNav = [
   { to: "/articles", label: "Articles", end: false },
 ];
 
+const capabilityItems = adverts.map((advert) => ({
+  to: `/services/${advert.slug}`,
+  label: advert.role
+    .replace(" Developer", "")
+    .replace(" with AI Experience", ""),
+}));
+
+const trendItems = [
+  ...trendCategories.map((category) => ({
+    to: `/trends/${category.slug}`,
+    label: category.title,
+  })),
+  { to: "/trends", label: "All trends" },
+];
+
+const guideItems = [
+  ...articles.slice(0, 6).map((article) => ({
+    to: `/articles/${article.slug}`,
+    label: article.eyebrow,
+  })),
+  { to: "/articles", label: "All articles" },
+];
+
 export function SiteLayout({ children }: SiteLayoutProps) {
+  const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
+
   return (
     <div className="site-shell">
       <header className="site-header">
@@ -37,40 +65,27 @@ export function SiteLayout({ children }: SiteLayoutProps) {
           <div className="site-nav-item">
             <NavLink to="/what-we-build#service-request">Contact</NavLink>
           </div>
-          <div className="site-nav-item site-nav-capabilities">
-            <span className="site-nav-label">Capabilities</span>
-            <div className="site-nav-submenu" role="group" aria-label="Capability pages">
-              {adverts.map((advert) => (
-                <NavLink key={advert.slug} to={`/services/${advert.slug}`}>
-                  {advert.role
-                    .replace(" Developer", "")
-                    .replace(" with AI Experience", "")}
-                </NavLink>
-              ))}
-            </div>
-          </div>
-          <div className="site-nav-item site-nav-capabilities">
-            <span className="site-nav-label">Trend hubs</span>
-            <div className="site-nav-submenu" role="group" aria-label="Trend categories">
-              {trendCategories.map((category) => (
-                <NavLink key={category.id} to={`/trends/${category.slug}`}>
-                  {category.title}
-                </NavLink>
-              ))}
-              <NavLink to="/trends">All trends</NavLink>
-            </div>
-          </div>
-          <div className="site-nav-item site-nav-capabilities">
-            <span className="site-nav-label">Guides</span>
-            <div className="site-nav-submenu" role="group" aria-label="Article guides">
-              {articles.slice(0, 6).map((article) => (
-                <NavLink key={article.slug} to={`/articles/${article.slug}`}>
-                  {article.eyebrow}
-                </NavLink>
-              ))}
-              <NavLink to="/articles">All articles</NavLink>
-            </div>
-          </div>
+          <NavDropdown
+            label="Capabilities"
+            menuLabel="Capability pages"
+            items={capabilityItems}
+            open={openMenu === "capabilities"}
+            onOpenChange={(open) => setOpenMenu(open ? "capabilities" : null)}
+          />
+          <NavDropdown
+            label="Trend hubs"
+            menuLabel="Trend categories"
+            items={trendItems}
+            open={openMenu === "trends"}
+            onOpenChange={(open) => setOpenMenu(open ? "trends" : null)}
+          />
+          <NavDropdown
+            label="Guides"
+            menuLabel="Article guides"
+            items={guideItems}
+            open={openMenu === "guides"}
+            onOpenChange={(open) => setOpenMenu(open ? "guides" : null)}
+          />
         </nav>
       </header>
       <main>{children}</main>
