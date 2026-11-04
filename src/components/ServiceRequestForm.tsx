@@ -17,22 +17,28 @@ type ServiceRequestFormProps = {
   advert?: Advert;
   title?: string;
   intro?: string;
+  projectTypeHint?: string;
 };
 
-const initialState = (advert?: Advert): FormState => ({
+const initialState = (advert?: Advert, projectTypeHint?: string): FormState => ({
   name: "",
   email: "",
   phone: "",
   company: "",
-  projectType: advert?.role ?? "",
+  projectType: advert?.role ?? projectTypeHint ?? "",
   budgetRange: "",
   preferredContact: "email",
   message: "",
   website: "",
 });
 
-export function ServiceRequestForm({ advert, title, intro }: ServiceRequestFormProps) {
-  const [form, setForm] = useState<FormState>(() => initialState(advert));
+export function ServiceRequestForm({
+  advert,
+  title,
+  intro,
+  projectTypeHint,
+}: ServiceRequestFormProps) {
+  const [form, setForm] = useState<FormState>(() => initialState(advert, projectTypeHint));
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
@@ -66,8 +72,8 @@ export function ServiceRequestForm({ advert, title, intro }: ServiceRequestFormP
       }
 
       setStatus("success");
-      setStatusMessage("Thanks, your request has been sent. We will reply as soon as possible.");
-      setForm(initialState(advert));
+      setStatusMessage("Thanks — your request has been sent. We will reply as soon as possible.");
+      setForm(initialState(advert, projectTypeHint));
     } catch (error) {
       setStatus("error");
       setStatusMessage(error instanceof Error ? error.message : "Your request could not be submitted.");
@@ -77,11 +83,11 @@ export function ServiceRequestForm({ advert, title, intro }: ServiceRequestFormP
   return (
     <section className="section request-section" id="service-request">
       <div className="section-heading">
-        <p className="eyebrow">Service request</p>
-        <h2>{title ?? "Tell Oldskoolvibe what you want built."}</h2>
+        <p className="eyebrow">Project enquiry</p>
+        <h2>{title ?? "Tell us what you want built."}</h2>
         <p>
           {intro ??
-            "Share the basics and the request will be stored securely in Supabase and emailed to John for follow-up."}
+            "Share the basics and we will follow up by email from info@oldskoolvibe.dev."}
         </p>
       </div>
 
@@ -178,7 +184,7 @@ export function ServiceRequestForm({ advert, title, intro }: ServiceRequestFormP
           <textarea
             name="message"
             onChange={(event) => updateField("message", event.target.value)}
-            placeholder="Tell me what you want, where you are starting from, and any useful links or deadlines."
+            placeholder="Tell us what you want, where you are starting from, and any useful links or deadlines."
             required
             rows={7}
             value={form.message}
@@ -199,7 +205,7 @@ export function ServiceRequestForm({ advert, title, intro }: ServiceRequestFormP
 
         <div className="request-submit">
           <button className="button button-primary" disabled={status === "submitting"} type="submit">
-            {status === "submitting" ? "Sending request..." : "Send service request"}
+            {status === "submitting" ? "Sending request..." : "Send project enquiry"}
           </button>
           {statusMessage ? (
             <p className={`request-status request-status-${status}`}>{statusMessage}</p>

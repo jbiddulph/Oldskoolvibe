@@ -24,27 +24,28 @@ export function AdvertPage() {
 
   useEffect(() => {
     if (!advert) {
-      document.title = "Advert not found | Oldskoolvibe";
+      document.title = "Capability not found | OldSkoolVibe.dev";
       return;
     }
 
-    document.title = `${advert.role} | Oldskoolvibe`;
+    document.title = `${advert.role} | OldSkoolVibe.dev`;
     updateMetaDescription(advert.metaDescription);
   }, [advert]);
 
   if (!advert) {
     return (
       <section className="section not-found">
-        <p className="eyebrow">Advert not found</p>
-        <h1>That developer advert is not available.</h1>
-        <Link className="button button-primary" to="/">
-          Return to adverts
+        <p className="eyebrow">Capability not found</p>
+        <h1>That service page is not available.</h1>
+        <Link className="button button-primary" to="/what-we-build">
+          See what we build
         </Link>
       </section>
     );
   }
 
   const relatedAdverts = adverts.filter((item) => item.slug !== advert.slug).slice(0, 3);
+  const shortRole = advert.role.replace(" Developer", "").replace(" with AI Experience", "");
 
   return (
     <>
@@ -55,7 +56,7 @@ export function AdvertPage() {
           <p className="hero-intro">{advert.intro}</p>
           <div className="hero-actions">
             <a className="button button-primary" href="#service-request">
-              Enquire about {advert.role}
+              Enquire about {shortRole}
             </a>
             <a className="button button-secondary" href="#deliverables">
               View deliverables
@@ -74,8 +75,8 @@ export function AdvertPage() {
 
       <section className="section two-column">
         <div>
-          <p className="eyebrow">Advert positioning</p>
-          <h2>Full-stack experience with PostgreSQL, UI/UX, and SEO included.</h2>
+          <p className="eyebrow">Agency capability</p>
+          <h2>Full-stack delivery with PostgreSQL, UI/UX, and SEO included.</h2>
         </div>
         <div className="proof-list">
           {advert.proofPoints.map((point) => (
@@ -90,7 +91,7 @@ export function AdvertPage() {
       <section className="section" id="deliverables">
         <div className="section-heading">
           <p className="eyebrow">Service details</p>
-          <h2>What this {advert.role.toLowerCase()} advert offers.</h2>
+          <h2>What our {shortRole.toLowerCase()} work typically includes.</h2>
         </div>
         <div className="detail-grid">
           <article className="detail-card">
@@ -123,7 +124,7 @@ export function AdvertPage() {
       <section className="section seo-panel">
         <div>
           <p className="eyebrow">SEO themes</p>
-          <h2>Search phrases this page supports.</h2>
+          <h2>Search phrases this capability supports.</h2>
         </div>
         <div className="pill-grid">
           {advert.seoKeywords.map((keyword) => (
@@ -135,14 +136,14 @@ export function AdvertPage() {
       <ServiceRequestForm
         advert={advert}
         key={advert.slug}
-        title={`Request ${advert.role.toLowerCase()} help.`}
-        intro="Send the basics through the form and the enquiry will be saved in Supabase with this service attached."
+        title={`Request ${shortRole.toLowerCase()} help from OldSkoolVibe.dev.`}
+        intro="Tell us about your project. We will email follow-up from info@oldskoolvibe.dev."
       />
 
       <section className="section related-section">
         <div className="section-heading">
-          <p className="eyebrow">Related adverts</p>
-          <h2>Explore other Oldskoolvibe developer services.</h2>
+          <p className="eyebrow">Related capabilities</p>
+          <h2>Explore more of what the agency can build.</h2>
         </div>
         <div className="related-grid">
           {relatedAdverts.map((related) => (
@@ -151,7 +152,7 @@ export function AdvertPage() {
               key={related.slug}
               to={`/services/${related.slug}`}
             >
-              <span>{related.role}</span>
+              <span>{related.role.replace(" Developer", "").replace(" with AI Experience", "")}</span>
               <strong>{related.eyebrow}</strong>
             </Link>
           ))}

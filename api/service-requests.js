@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
 const EMAIL_TO = process.env.SERVICE_REQUEST_EMAIL_TO || "john.mbiddulph@gmail.com";
-const EMAIL_FROM = process.env.SERVICE_REQUEST_EMAIL_FROM || "Oldskoolvibe <forms@oldskoolvibe.dev>";
+const EMAIL_FROM = process.env.SERVICE_REQUEST_EMAIL_FROM || "OldSkoolVibe.dev <info@oldskoolvibe.dev>";
 const VALID_CONTACT_METHODS = new Set(["email", "phone", "video_call"]);
 const RESEND_ENV_NAMES = ["RESEND_API_KEY"];
 
@@ -200,9 +200,9 @@ export default async function handler(request, response) {
       from: EMAIL_FROM,
       to: EMAIL_TO,
       replyTo: email,
-      subject: `Oldskoolvibe service request: ${serviceLabel}`,
+      subject: `OldSkoolVibe.dev project enquiry: ${serviceLabel}`,
       html: `
-        <h1>New Oldskoolvibe service request</h1>
+        <h1>New OldSkoolVibe.dev project enquiry</h1>
         ${formatLine("Submitted", submittedAt)}
         ${formatLine("Service", serviceLabel)}
         ${formatLine("Name", name)}
@@ -216,7 +216,7 @@ export default async function handler(request, response) {
         <p>${escapeHtml(message).replaceAll("\n", "<br />")}</p>
       `,
       text: [
-        "New Oldskoolvibe service request",
+        "New OldSkoolVibe.dev project enquiry",
         `Submitted: ${submittedAt}`,
         `Service: ${serviceLabel}`,
         `Name: ${name}`,
