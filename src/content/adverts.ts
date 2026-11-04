@@ -30,12 +30,12 @@ export const adverts: Advert[] = [
     role: "React Developer",
     subNavLabel: "React Websites in {location}",
     eyebrow: "Modern frontend and full-stack React delivery",
-    headline: "Hire a React developer for fast, polished, SEO-aware web apps.",
+    headline: "React and Next.js websites built for speed, polish, and SEO.",
     intro:
-      "Oldskoolvibe builds React interfaces that feel sharp, load quickly, and connect cleanly to real business workflows. From landing pages to dashboards, the work covers frontend craft, backend APIs, PostgreSQL-backed data, UI/UX, and discoverable content.",
+      "OldSkoolVibe.dev builds React and Next interfaces that feel sharp, load quickly, and connect cleanly to real business workflows. From landing pages to dashboards, our agency covers frontend craft, backend APIs, PostgreSQL-backed data, UI/UX, and discoverable content.",
     metaDescription:
-      "React developer advert for Oldskoolvibe: frontend, backend, PostgreSQL, Supabase, UI/UX, SEO, and conversion-focused React apps.",
-    stack: ["React", "TypeScript", "Vite", "Supabase", "PostgreSQL", "REST APIs"],
+      "React and Next.js website development from OldSkoolVibe.dev: frontend, backend, PostgreSQL, Supabase, UI/UX, SEO, and conversion-focused web apps.",
+    stack: ["React", "Next.js", "TypeScript", "Vite", "Supabase", "PostgreSQL"],
     proofPoints: sharedFullStackExperience,
     serviceHighlights: [
       "Reusable React component libraries and design systems",
@@ -62,11 +62,11 @@ export const adverts: Advert[] = [
     role: "Vue Developer",
     subNavLabel: "Vue Websites in {location}",
     eyebrow: "Vue applications with practical full-stack experience",
-    headline: "Hire a Vue developer for elegant interfaces and dependable data flows.",
+    headline: "Vue websites and apps with elegant interfaces and dependable data flows.",
     intro:
-      "Oldskoolvibe creates Vue experiences that balance clean interaction design with production-ready engineering. The service covers frontend builds, backend connections, PostgreSQL data models, UI/UX improvements, and SEO essentials.",
+      "OldSkoolVibe.dev creates Vue experiences that balance clean interaction design with production-ready engineering. Our agency covers frontend builds, backend connections, PostgreSQL data models, UI/UX improvements, and SEO essentials.",
     metaDescription:
-      "Vue developer advert covering Vue UI builds, backend services, PostgreSQL databases, Supabase, UI/UX, and SEO support.",
+      "Vue website development from OldSkoolVibe.dev: Vue UI builds, backend services, PostgreSQL databases, Supabase, UI/UX, and SEO support.",
     stack: ["Vue", "TypeScript", "Pinia", "Supabase", "PostgreSQL", "API integrations"],
     proofPoints: sharedFullStackExperience,
     serviceHighlights: [
@@ -94,11 +94,11 @@ export const adverts: Advert[] = [
     role: "Nuxt Developer",
     subNavLabel: "Nuxt Websites in {location}",
     eyebrow: "SEO-led Nuxt sites and applications",
-    headline: "Hire a Nuxt developer for content-rich, high-performing web experiences.",
+    headline: "Nuxt websites for content-rich, high-performing web experiences.",
     intro:
-      "Oldskoolvibe uses Nuxt where SEO, performance, routing, and content structure matter. The work can span SSR-ready pages, API-backed features, PostgreSQL storage, Supabase integrations, UI/UX refinement, and conversion-led advert pages.",
+      "OldSkoolVibe.dev uses Nuxt where SEO, performance, routing, and content structure matter. Our agency delivers SSR-ready pages, API-backed features, PostgreSQL storage, Supabase integrations, UI/UX refinement, and conversion-led service pages.",
     metaDescription:
-      "Nuxt developer advert for SSR, SEO, PostgreSQL, Supabase, UI/UX, backend integrations, and high-performing web apps.",
+      "Nuxt website development from OldSkoolVibe.dev for SSR, SEO, PostgreSQL, Supabase, UI/UX, backend integrations, and high-performing web apps.",
     stack: ["Nuxt", "Vue", "TypeScript", "Supabase", "PostgreSQL", "Server routes"],
     proofPoints: sharedFullStackExperience,
     serviceHighlights: [
@@ -126,11 +126,11 @@ export const adverts: Advert[] = [
     role: "Laravel Developer",
     subNavLabel: "Laravel applications in {location}",
     eyebrow: "Laravel backends, admin tools, and full-stack builds",
-    headline: "Hire a Laravel developer for robust web apps and business systems.",
+    headline: "Laravel backends, admin tools, and full-stack business systems.",
     intro:
-      "Oldskoolvibe delivers Laravel features with a practical eye for backend reliability and frontend usability. Services include APIs, admin panels, PostgreSQL databases, integrations, UI/UX polish, and technical SEO for public-facing pages.",
+      "OldSkoolVibe.dev delivers Laravel features with a practical eye for backend reliability and frontend usability. Our agency builds APIs, admin panels, PostgreSQL databases, integrations, UI/UX polish, and technical SEO for public-facing pages.",
     metaDescription:
-      "Laravel developer advert for APIs, backend systems, PostgreSQL databases, frontend UI/UX, SEO, and full-stack delivery.",
+      "Laravel website and app development from OldSkoolVibe.dev: APIs, backend systems, PostgreSQL databases, frontend UI/UX, SEO, and full-stack delivery.",
     stack: ["Laravel", "PHP", "Blade", "Inertia", "PostgreSQL", "Queues"],
     proofPoints: sharedFullStackExperience,
     serviceHighlights: [
@@ -158,11 +158,11 @@ export const adverts: Advert[] = [
     role: "Python Developer",
     subNavLabel: "Python web applications and scripts in {location}",
     eyebrow: "Python automation, APIs, and data-backed products",
-    headline: "Hire a Python developer for practical automation and scalable web features.",
+    headline: "Python APIs, automation, and scalable web features for growing products.",
     intro:
-      "Oldskoolvibe builds Python services that remove manual work, integrate systems, and support data-rich products. The offer includes backend APIs, PostgreSQL databases, Supabase-aware workflows, frontend collaboration, UI/UX thinking, and SEO for public interfaces.",
+      "OldSkoolVibe.dev builds Python services that remove manual work, integrate systems, and support data-rich products. Our agency delivers backend APIs, PostgreSQL databases, Supabase-aware workflows, frontend collaboration, UI/UX thinking, and SEO for public interfaces.",
     metaDescription:
-      "Python developer advert for automation, APIs, PostgreSQL, Supabase, full-stack support, UI/UX, and SEO-focused web delivery.",
+      "Python website backend development from OldSkoolVibe.dev: automation, APIs, PostgreSQL, Supabase, full-stack support, UI/UX, and SEO-focused web delivery.",
     stack: ["Python", "FastAPI", "Django", "PostgreSQL", "Supabase", "Automation"],
     proofPoints: sharedFullStackExperience,
     serviceHighlights: [
@@ -190,12 +190,12 @@ export const adverts: Advert[] = [
     role: "Vibe Coder with AI Experience",
     subNavLabel: "Vibe coding with AI in {location}",
     eyebrow: "AI-assisted product builds with senior engineering judgement",
-    headline: "Hire a vibe coder with AI experience to turn ideas into shipped product pages and apps.",
+    headline: "AI-assisted vibe coding that turns ideas into shipped websites and apps.",
     intro:
-      "Oldskoolvibe combines fast AI-assisted delivery with practical full-stack engineering. The service helps shape rough ideas, prototype quickly, connect PostgreSQL-backed data, refine UI/UX, and build SEO-ready pages without losing maintainability.",
+      "OldSkoolVibe.dev combines fast AI-assisted delivery with practical full-stack engineering. Our agency helps shape rough ideas, prototype quickly, connect PostgreSQL-backed data, refine UI/UX, and build SEO-ready pages without losing maintainability.",
     metaDescription:
-      "Vibe coder with AI experience advert for AI-assisted development, React, Vue, Laravel, Python, PostgreSQL, Supabase, UI/UX, and SEO.",
-    stack: ["AI coding tools", "React", "Vue", "Laravel", "Python", "PostgreSQL"],
+      "AI vibe coding and agent-assisted website development from OldSkoolVibe.dev across React, Next, Vue, Nuxt, Laravel, Python, PostgreSQL, Supabase, UI/UX, and SEO.",
+    stack: ["AI agents", "MCPs", "React", "Next.js", "Vue", "Nuxt", "Laravel", "Python"],
     proofPoints: sharedFullStackExperience,
     serviceHighlights: [
       "Rapid prototyping from notes, voice, sketches, or rough requirements",

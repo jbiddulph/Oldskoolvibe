@@ -1,16 +1,21 @@
-# Oldskoolvibe
+# OldSkoolVibe.dev
 
-Oldskoolvibe is a React/Vite advert site for developer services across:
+OldSkoolVibe.dev is a website development agency site built with React and Vite.
 
-- React Developer
-- Vue Developer
-- Nuxt Developer
-- Laravel Developer
-- Python Developer
-- Vibe Coder with AI Experience
+The agency positions affordable website and web app delivery across:
 
-Each advert highlights frontend and backend experience, PostgreSQL database
-work, Supabase-ready data design, UI/UX, and SEO.
+- Nuxt or Next
+- Vue or React
+- Python or Laravel
+- AI-assisted vibe coding, agents, MCPs, PRDs, skills, and delivery loops
+
+## Key routes
+
+- `/` — agency home
+- `/what-we-build` — services, frameworks, and project enquiry form
+- `/articles` — SEO article index
+- `/articles/:slug` — long-form guides
+- `/services/:slug` — capability pages (React/Next, Vue, Nuxt, Laravel, Python, vibe coding)
 
 ## Development
 
@@ -46,7 +51,7 @@ https://qemafehpoknkbejlbksa.supabase.co
 
 Service request forms post to `/api/service-requests`. The endpoint stores the
 request in `oldskoolvibe_service_enquiries` and emails the details to
-`john.mbiddulph@gmail.com`.
+`john.mbiddulph@gmail.com` from `info@oldskoolvibe.dev`.
 
 Set these Vercel environment variables:
 
@@ -54,7 +59,7 @@ Set these Vercel environment variables:
 SUPABASE_URL=https://qemafehpoknkbejlbksa.supabase.co
 SUPABASE_PUBLISHABLE_KEY=<Supabase publishable or anon key>
 RESEND_API_KEY=<Resend API key>
-SERVICE_REQUEST_EMAIL_FROM=Oldskoolvibe <forms@oldskoolvibe.dev>
+SERVICE_REQUEST_EMAIL_FROM=OldSkoolVibe.dev <info@oldskoolvibe.dev>
 SERVICE_REQUEST_EMAIL_TO=john.mbiddulph@gmail.com
 ```
 
