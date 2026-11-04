@@ -1,3 +1,13 @@
+import { trendArticles } from "./trendArticles";
+
+export type ArticleCategory =
+  | "frontend"
+  | "backend"
+  | "ui-ux"
+  | "ai-workflow"
+  | "agency"
+  | "frameworks";
+
 export type ArticleSection = {
   heading: string;
   paragraphs: string[];
@@ -13,6 +23,7 @@ export type Article = {
   publishedAt: string;
   updatedAt: string;
   readingMinutes: number;
+  category?: ArticleCategory;
   keywords: string[];
   accent: string;
   heroIntro: string;
@@ -21,9 +32,10 @@ export type Article = {
   ctaLabel: string;
 };
 
-export const articles: Article[] = [
+const coreArticles: Article[] = [
   {
     slug: "website-development-with-ai",
+    category: "ai-workflow",
     title: "Website development with AI: how modern agencies ship faster without cutting quality",
     eyebrow: "AI web development",
     description:
@@ -101,6 +113,7 @@ export const articles: Article[] = [
   },
   {
     slug: "vibe-coding-for-client-websites",
+    category: "ai-workflow",
     title: "Vibe coding for client websites: from rough idea to shipped product",
     eyebrow: "Vibe coding",
     description:
@@ -171,6 +184,7 @@ export const articles: Article[] = [
   },
   {
     slug: "ai-agents-and-mcps-in-web-development",
+    category: "ai-workflow",
     title: "AI agents and MCPs in web development: practical tooling for modern agencies",
     eyebrow: "Agents & MCPs",
     description:
@@ -242,6 +256,7 @@ export const articles: Article[] = [
   },
   {
     slug: "prd-driven-website-projects",
+    category: "ai-workflow",
     title: "PRDs for website projects: lightweight product requirements that keep builds on track",
     eyebrow: "PRDs",
     description:
@@ -312,6 +327,7 @@ export const articles: Article[] = [
   },
   {
     slug: "skills-for-ai-assisted-development-teams",
+    category: "ai-workflow",
     title: "Skills for AI-assisted development teams: packaging expertise agents can reuse",
     eyebrow: "Skills",
     description:
@@ -382,6 +398,7 @@ export const articles: Article[] = [
   },
   {
     slug: "development-loops-that-ship-websites-faster",
+    category: "ai-workflow",
     title: "Development loops that ship websites faster: feedback cycles for AI-era delivery",
     eyebrow: "Loops",
     description:
@@ -452,6 +469,7 @@ export const articles: Article[] = [
   },
   {
     slug: "affordable-website-development-agency-guide",
+    category: "agency",
     title: "Affordable website development: what to expect from a modern agency build",
     eyebrow: "Agency buying guide",
     description:
@@ -509,6 +527,7 @@ export const articles: Article[] = [
   },
   {
     slug: "nuxt-vs-next-for-business-websites",
+    category: "frameworks",
     title: "Nuxt vs Next for business websites: which meta-framework should you choose?",
     eyebrow: "Framework comparison",
     description:
@@ -565,6 +584,7 @@ export const articles: Article[] = [
   },
   {
     slug: "vue-or-react-for-web-apps",
+    category: "frameworks",
     title: "Vue or React for web apps: picking the frontend your product can live with",
     eyebrow: "Frontend strategy",
     description:
@@ -616,6 +636,7 @@ export const articles: Article[] = [
   },
   {
     slug: "python-or-laravel-backend-for-websites",
+    category: "frameworks",
     title: "Python or Laravel for website backends: APIs, admin tools, and business logic",
     eyebrow: "Backend strategy",
     description:
@@ -667,8 +688,24 @@ export const articles: Article[] = [
   },
 ];
 
+export const articles: Article[] = [...coreArticles, ...trendArticles];
+
 export const getArticleBySlug = (slug: string | undefined) =>
   articles.find((article) => article.slug === slug);
 
-export const getRelatedArticles = (slug: string, limit = 3) =>
-  articles.filter((article) => article.slug !== slug).slice(0, limit);
+export const getArticlesByCategory = (category: ArticleCategory) =>
+  articles.filter((article) => article.category === category);
+
+export const getRelatedArticles = (slug: string, limit = 3) => {
+  const current = getArticleBySlug(slug);
+  const others = articles.filter((article) => article.slug !== slug);
+
+  if (!current?.category) {
+    return others.slice(0, limit);
+  }
+
+  const sameCategory = others.filter((article) => article.category === current.category);
+  const remainder = others.filter((article) => article.category !== current.category);
+
+  return [...sameCategory, ...remainder].slice(0, limit);
+};

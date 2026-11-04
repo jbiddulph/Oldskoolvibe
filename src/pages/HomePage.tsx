@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ServiceRequestForm } from "../components/ServiceRequestForm";
 import { articles } from "../content/articles";
 import { adverts } from "../content/adverts";
+import { trendCategories } from "../content/trendCategories";
 
 const agencyPillars = [
   "Website design & development",
@@ -109,6 +110,30 @@ export function HomePage() {
 
       <section className="section">
         <div className="section-heading">
+          <p className="eyebrow">Latest trends</p>
+          <h2>Frontend, backend, and UI/UX trend hubs with multiple detailed pages.</h2>
+          <p className="section-intro">
+            Stay current with practical guides on interface engineering, APIs and
+            data systems, and experience design — written to rank and to help
+            buyers make clearer decisions.
+          </p>
+        </div>
+        <div className="related-grid">
+          {trendCategories.map((category) => (
+            <Link
+              className={`related-card accent-${category.accent}`}
+              key={category.id}
+              to={`/trends/${category.slug}`}
+            >
+              <span>{category.eyebrow}</span>
+              <strong>{category.headline}</strong>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-heading">
           <p className="eyebrow">Guides for buyers and builders</p>
           <h2>SEO articles on AI, vibe coding, agents, MCPs, PRDs, skills, and loops.</h2>
           <p className="section-intro">
@@ -131,6 +156,9 @@ export function HomePage() {
           ))}
         </div>
         <div className="inline-actions">
+          <Link className="button button-secondary" to="/trends">
+            Browse all trends
+          </Link>
           <Link className="button button-secondary" to="/articles">
             Browse all articles
           </Link>

@@ -13,8 +13,10 @@ The agency positions affordable website and web app delivery across:
 
 - `/` — agency home
 - `/what-we-build` — services, frameworks, and project enquiry form
+- `/trends` — frontend, backend, and UI/UX trend hubs
+- `/trends/:category` — dedicated trend category pages
 - `/articles` — SEO article index
-- `/articles/:slug` — long-form guides
+- `/articles/:slug` — long-form guides and trend articles
 - `/services/:slug` — capability pages (React/Next, Vue, Nuxt, Laravel, Python, vibe coding)
 
 ## Development

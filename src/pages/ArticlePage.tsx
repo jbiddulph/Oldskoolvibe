@@ -107,6 +107,13 @@ export function ArticlePage() {
             <div className="article-meta hero-meta">
               <span>Updated {formatDate(article.updatedAt)}</span>
               <span>{article.readingMinutes} min read</span>
+              {article.category === "frontend" ||
+              article.category === "backend" ||
+              article.category === "ui-ux" ? (
+                <Link to={`/trends/${article.category}`}>
+                  {article.category === "ui-ux" ? "UI/UX" : article.category} trends hub
+                </Link>
+              ) : null}
             </div>
             <div className="hero-actions">
               <a className="button button-primary" href="#service-request">

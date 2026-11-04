@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { articles } from "../content/articles";
+import { trendCategories } from "../content/trendCategories";
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-GB", {
@@ -18,7 +19,7 @@ export function ArticlesPage() {
     if (meta) {
       meta.setAttribute(
         "content",
-        "SEO articles from OldSkoolVibe.dev on AI website development, vibe coding, agents, MCPs, PRDs, skills, delivery loops, Nuxt, Next, Vue, React, Python, and Laravel.",
+        "SEO articles from OldSkoolVibe.dev on AI website development, vibe coding, frontend trends, backend trends, UI/UX trends, agents, MCPs, PRDs, skills, and delivery loops.",
       );
     }
   }, []);
@@ -28,33 +29,52 @@ export function ArticlesPage() {
       <section className="hero agency-hero">
         <div className="hero-copy">
           <p className="eyebrow">OldSkoolVibe.dev journal</p>
-          <h1>Articles on AI-era website development.</h1>
+          <h1>Articles on AI-era website development and latest trends.</h1>
           <p className="hero-intro">
             Practical guides for businesses and teams buying modern web work —
-            from vibe coding and AI agents to PRDs, skills, loops, and choosing
-            between Nuxt, Next, Vue, React, Python, and Laravel.
+            from vibe coding and AI agents to frontend, backend, and UI/UX trends
+            across Nuxt, Next, Vue, React, Python, and Laravel.
           </p>
           <div className="hero-actions">
-            <Link className="button button-primary" to="/what-we-build#service-request">
-              Start a project
+            <Link className="button button-primary" to="/trends">
+              Browse trend hubs
             </Link>
-            <Link className="button button-secondary" to="/what-we-build">
-              What we build
+            <Link className="button button-secondary" to="/what-we-build#service-request">
+              Start a project
             </Link>
           </div>
         </div>
         <aside className="hero-panel" aria-label="Article topics">
           <span className="panel-kicker">Indexed topics</span>
           <div className="pill-grid">
+            <span>Frontend trends</span>
+            <span>Backend trends</span>
+            <span>UI/UX trends</span>
             <span>AI web development</span>
             <span>Vibe coding</span>
             <span>Agents &amp; MCPs</span>
-            <span>PRDs</span>
-            <span>Skills</span>
-            <span>Delivery loops</span>
             <span>Framework guides</span>
           </div>
         </aside>
+      </section>
+
+      <section className="section">
+        <div className="section-heading">
+          <p className="eyebrow">Trend hubs</p>
+          <h2>Multiple pages covering the latest frontend, backend, and UI/UX trends.</h2>
+        </div>
+        <div className="related-grid">
+          {trendCategories.map((category) => (
+            <Link
+              className={`related-card accent-${category.accent}`}
+              key={category.id}
+              to={`/trends/${category.slug}`}
+            >
+              <span>{category.eyebrow}</span>
+              <strong>{category.headline}</strong>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section className="section">
