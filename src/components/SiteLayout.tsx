@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { articles } from "../content/articles";
 import { adverts } from "../content/adverts";
+import { trendCategories } from "../content/trendCategories";
 
 type SiteLayoutProps = {
   children: ReactNode;
@@ -10,6 +11,7 @@ type SiteLayoutProps = {
 const primaryNav = [
   { to: "/", label: "Home", end: true },
   { to: "/what-we-build", label: "What we build", end: false },
+  { to: "/trends", label: "Trends", end: false },
   { to: "/articles", label: "Articles", end: false },
 ];
 
@@ -48,6 +50,17 @@ export function SiteLayout({ children }: SiteLayoutProps) {
             </div>
           </div>
           <div className="site-nav-item site-nav-capabilities">
+            <span className="site-nav-label">Trend hubs</span>
+            <div className="site-nav-submenu" role="group" aria-label="Trend categories">
+              {trendCategories.map((category) => (
+                <NavLink key={category.id} to={`/trends/${category.slug}`}>
+                  {category.title}
+                </NavLink>
+              ))}
+              <NavLink to="/trends">All trends</NavLink>
+            </div>
+          </div>
+          <div className="site-nav-item site-nav-capabilities">
             <span className="site-nav-label">Guides</span>
             <div className="site-nav-submenu" role="group" aria-label="Article guides">
               {articles.slice(0, 6).map((article) => (
@@ -69,6 +82,10 @@ export function SiteLayout({ children }: SiteLayoutProps) {
           </p>
           <div className="footer-links">
             <a href="/what-we-build">What we build</a>
+            <a href="/trends">Trends</a>
+            <a href="/trends/frontend">Frontend trends</a>
+            <a href="/trends/backend">Backend trends</a>
+            <a href="/trends/ui-ux">UI/UX trends</a>
             <a href="/articles">Articles</a>
             <a href="/sitemap.xml">Sitemap</a>
             <a href="/what-we-build#service-request">Request a quote</a>
