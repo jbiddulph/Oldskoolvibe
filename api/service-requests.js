@@ -1,10 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
-const EMAIL_TO = process.env.SERVICE_REQUEST_EMAIL_TO || "john.mbiddulph@gmail.com";
-const EMAIL_FROM = process.env.SERVICE_REQUEST_EMAIL_FROM || "OldSkoolVibe.dev <info@oldskoolvibe.dev>";
+const DEFAULT_EMAIL_TO = "john.mbiddulph@gmail.com,info@oldskoolvibe.dev";
+const EMAIL_FROM =
+  process.env.SERVICE_REQUEST_EMAIL_FROM || "OldSkoolVibe.dev <info@oldskoolvibe.dev>";
 const VALID_CONTACT_METHODS = new Set(["email", "phone", "video_call"]);
 const RESEND_ENV_NAMES = ["RESEND_API_KEY"];
+const HONEYPOT_FIELDS = ["website", "company_url_confirm"];
 
 const cleanText = (value, maxLength) => {
   if (typeof value !== "string") {
@@ -20,6 +22,18 @@ const cleanOptional = (value, maxLength) => {
 };
 
 const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+const parseAddressList = (value) =>
+  String(value || "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter((part) => isEmail(part.replace(/^.*<\s*([^>]+)\s*>\s*$/, "$1")));
+
+const EMAIL_TO = (() => {
+  const configured = parseAddressList(process.env.SERVICE_REQUEST_EMAIL_TO || DEFAULT_EMAIL_TO);
+  const defaults = parseAddressList(DEFAULT_EMAIL_TO);
+  return Array.from(new Set([...configured, ...defaults]));
+})();
 
 const escapeHtml = (value) =>
   String(value ?? "")
@@ -60,6 +74,7 @@ const getEnvDiagnostics = () => ({
   resendRuntimeEnvKeyCount: Object.keys(process.env).filter((name) =>
     name.toUpperCase().includes("RESEND"),
   ).length,
+  recipientCount: EMAIL_TO.length,
 });
 
 const getEmailDomain = (address) => {
@@ -73,8 +88,11 @@ const getEmailDeliveryDiagnostics = (emailError) => ({
   statusCode: emailError?.statusCode || null,
   message: emailError?.message || "Unknown Resend error",
   fromDomain: getEmailDomain(EMAIL_FROM),
-  toDomain: getEmailDomain(EMAIL_TO),
+  toDomains: EMAIL_TO.map((address) => getEmailDomain(address)).filter(Boolean),
 });
+
+const wasHoneypotFilled = (payload) =>
+  HONEYPOT_FIELDS.some((field) => Boolean(cleanText(payload?.[field], 200)));
 
 const getSupabaseClient = () => {
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
@@ -115,7 +133,7 @@ export default async function handler(request, response) {
     }
   }
 
-  if (cleanText(payload?.website, 200)) {
+  if (wasHoneypotFilled(payload)) {
     return response.status(202).json({ ok: true });
   }
 
@@ -124,6 +142,13 @@ export default async function handler(request, response) {
   if (!resendApiKey) {
     return response.status(500).json({
       error: "Email delivery is not configured in this deployment.",
+      diagnostics: getEnvDiagnostics(),
+    });
+  }
+
+  if (EMAIL_TO.length === 0) {
+    return response.status(500).json({
+      error: "Email delivery recipients are not configured in this deployment.",
       diagnostics: getEnvDiagnostics(),
     });
   }
@@ -139,7 +164,9 @@ export default async function handler(request, response) {
   const advertRole = cleanOptional(payload?.advertRole, 160);
   const sourcePath = cleanOptional(payload?.sourcePath, 300);
   const requestedContact = cleanText(payload?.preferredContact, 40) || "email";
-  const preferredContact = VALID_CONTACT_METHODS.has(requestedContact) ? requestedContact : "email";
+  const preferredContact = VALID_CONTACT_METHODS.has(requestedContact)
+    ? requestedContact
+    : "email";
 
   if (!name || !isEmail(email) || !message) {
     return response.status(400).json({
@@ -196,7 +223,7 @@ export default async function handler(request, response) {
       timeZone: "Europe/London",
     });
 
-    const { error: emailError } = await resend.emails.send({
+    const emailPayload = {
       from: EMAIL_FROM,
       to: EMAIL_TO,
       replyTo: email,
@@ -231,7 +258,9 @@ export default async function handler(request, response) {
       ]
         .filter(Boolean)
         .join("\n"),
-    });
+    };
+
+    const { data: emailData, error: emailError } = await resend.emails.send(emailPayload);
 
     if (emailError) {
       console.error("Resend email delivery failed", {
@@ -246,7 +275,29 @@ export default async function handler(request, response) {
       });
     }
 
-    return response.status(201).json({ ok: true });
+    if (!emailData?.id) {
+      console.error("Resend accepted the request without returning an email id", {
+        recipients: EMAIL_TO,
+      });
+
+      return response.status(502).json({
+        error: "Your request was saved, but the notification email could not be confirmed.",
+        diagnostics: {
+          provider: "resend",
+          message: "Resend did not return an email id.",
+          fromDomain: getEmailDomain(EMAIL_FROM),
+          toDomains: EMAIL_TO.map((address) => getEmailDomain(address)).filter(Boolean),
+        },
+      });
+    }
+
+    console.info("Service request notification emailed", {
+      emailId: emailData.id,
+      recipientCount: EMAIL_TO.length,
+      sourcePath,
+    });
+
+    return response.status(201).json({ ok: true, emailId: emailData.id });
   } catch (error) {
     console.error("Service request submission failed", error);
 

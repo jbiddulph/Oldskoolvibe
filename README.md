@@ -52,8 +52,13 @@ https://qemafehpoknkbejlbksa.supabase.co
 ## Service request email setup
 
 Service request forms post to `/api/service-requests`. The endpoint stores the
-request in `oldskoolvibe_service_enquiries` and emails the details to
-`john.mbiddulph@gmail.com` from `info@oldskoolvibe.dev`.
+request in `oldskoolvibe_service_enquiries` and emails the details from
+`info@oldskoolvibe.dev` to every address in `SERVICE_REQUEST_EMAIL_TO`
+(comma-separated). Defaults include both Gmail and the agency inbox:
+
+```text
+john.mbiddulph@gmail.com,info@oldskoolvibe.dev
+```
 
 Set these Vercel environment variables:
 
@@ -62,11 +67,25 @@ SUPABASE_URL=https://qemafehpoknkbejlbksa.supabase.co
 SUPABASE_PUBLISHABLE_KEY=<Supabase publishable or anon key>
 RESEND_API_KEY=<Resend API key>
 SERVICE_REQUEST_EMAIL_FROM=OldSkoolVibe.dev <info@oldskoolvibe.dev>
-SERVICE_REQUEST_EMAIL_TO=john.mbiddulph@gmail.com
+SERVICE_REQUEST_EMAIL_TO=john.mbiddulph@gmail.com,info@oldskoolvibe.dev
 ```
 
 `SERVICE_REQUEST_EMAIL_FROM` can use an address at `oldskoolvibe.dev` without a
-mailbox, but the domain must be verified in the email provider so it can send.
+mailbox, but the domain must be verified in Resend so it can send.
+
+Where to look for messages in Resend:
+
+- **Emails → Sent** shows outbound notifications the form just sent.
+- **Emails → Receiving / Inboxes** only shows mail delivered *to*
+  `info@oldskoolvibe.dev` (or another receiving address). That requires the
+  domain receiving MX to point at Resend. Sending only to Gmail will not appear
+  in the Resend inbox.
+
+DNS checklist for deliverability:
+
+- `resend._domainkey` TXT must be `v=DKIM1; k=rsa; p=...` (not bare `p=...`)
+- `send` subdomain SPF/MX for Resend return-path
+- `_dmarc` TXT such as `v=DMARC1; p=none; rua=mailto:info@oldskoolvibe.dev`
 
 If `/api/service-requests` returns `Email delivery is not configured in this
 deployment`, the running Vercel deployment cannot see `RESEND_API_KEY`. Check
