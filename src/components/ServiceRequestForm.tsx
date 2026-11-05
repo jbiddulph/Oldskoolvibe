@@ -10,7 +10,8 @@ type FormState = {
   budgetRange: string;
   preferredContact: "email" | "phone" | "video_call";
   message: string;
-  website: string;
+  /** Autofill-resistant honeypot; bots may still fill it. */
+  company_url_confirm: string;
 };
 
 type ServiceRequestFormProps = {
@@ -29,7 +30,7 @@ const initialState = (advert?: Advert, projectTypeHint?: string): FormState => (
   budgetRange: "",
   preferredContact: "email",
   message: "",
-  website: "",
+  company_url_confirm: "",
 });
 
 export function ServiceRequestForm({
@@ -191,15 +192,15 @@ export function ServiceRequestForm({
           />
         </label>
 
-        <label className="request-honeypot">
-          <span>Website</span>
+        <label className="request-honeypot" aria-hidden="true">
+          <span>Company website</span>
           <input
             autoComplete="off"
-            name="website"
-            onChange={(event) => updateField("website", event.target.value)}
+            name="company_url_confirm"
+            onChange={(event) => updateField("company_url_confirm", event.target.value)}
             tabIndex={-1}
             type="text"
-            value={form.website}
+            value={form.company_url_confirm}
           />
         </label>
 
